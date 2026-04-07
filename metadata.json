@@ -1,0 +1,8 @@
+{
+  "name": "Tourfly",
+  "description": "AI Visual Solutions SAAS Platform - Text to Image, Image Editing, and Creative Workflows.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
