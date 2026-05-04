@@ -1,6 +1,6 @@
 {
-  "name": "Tourfly",
-  "description": "AI Visual Solutions SAAS Platform - Text to Image, Image Editing, and Creative Workflows.",
+  "name": "图蝇AI - 视觉解决方案平台",
+  "description": "图蝇AI (Tourfly AI) 是一款专业的AI视觉解决方案SaaS平台。提供AI生图、AI分色换色、AI工作流、小程序AI生图、电商商拍、家纺设计等全方位视觉智能服务。",
   "requestFramePermissions": [
     "camera",
     "microphone"

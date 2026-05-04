@@ -11,14 +11,14 @@ interface GalleryImage {
 }
 
 const GALLERY_IMAGES: GalleryImage[] = [
-  { id: '1', url: 'https://picsum.photos/seed/tf-gal-1/800/800', prompt: 'Cyberpunk street photography, neon rain, 8k' },
-  { id: '2', url: 'https://picsum.photos/seed/tf-gal-2/800/800', prompt: 'Ethereal forest spirit, glowing flora, cinematic lighting' },
-  { id: '3', url: 'https://picsum.photos/seed/tf-gal-3/800/800', prompt: 'Minimalist architectural render, concrete and glass, sunset' },
-  { id: '4', url: 'https://picsum.photos/seed/tf-gal-4/800/800', prompt: 'Surrealist portrait, melting clocks, desert background' },
-  { id: '5', url: 'https://picsum.photos/seed/tf-gal-5/800/800', prompt: 'Futuristic sneaker design, holographic materials' },
-  { id: '6', url: 'https://picsum.photos/seed/tf-gal-6/800/800', prompt: 'Macro shot of a mechanical butterfly, intricate gears' },
-  { id: '7', url: 'https://picsum.photos/seed/tf-gal-7/800/800', prompt: 'Abstract liquid metal sculpture, chrome finish' },
-  { id: '8', url: 'https://picsum.photos/seed/tf-gal-8/800/800', prompt: 'Vintage sci-fi poster, retro-futurism, grain texture' },
+  { id: '1', url: 'https://picsum.photos/seed/tf-gal-bag1/1200/800', prompt: 'Luxury leather bag, high-end studio lighting, 8k commercial photography' },
+  { id: '2', url: 'https://picsum.photos/seed/tf-gal-shoe1/800/1200', prompt: 'Sneaker product shot, urban street environment, cinematic fog' },
+  { id: '3', url: 'https://picsum.photos/seed/tf-gal-fash1/800/800', prompt: 'High fashion portrait, oriental beauty, silk garment, soft lighting' },
+  { id: '4', url: 'https://picsum.photos/seed/tf-gal-print1/1200/1200', prompt: 'Abstract floral pattern on apparel, high texture detail' },
+  { id: '5', url: 'https://picsum.photos/seed/tf-gal-cosm1/800/1200', prompt: 'Cosmetic bottle on marble, water ripples, soft sunlight' },
+  { id: '6', url: 'https://picsum.photos/seed/tf-gal-watch1/800/800', prompt: 'Minimalist watch rendering, titanium finish, dark background' },
+  { id: '7', url: 'https://picsum.photos/seed/tf-gal-fash2/1200/800', prompt: 'Ins style street snap, trench coat, autumn paris background' },
+  { id: '8', url: 'https://picsum.photos/seed/tf-gal-food1/800/800', prompt: 'High-end food photography, minimalist presentation' },
 ];
 
 export function Gallery({ credits, onRemix }: { credits: number; onRemix: () => void }) {
@@ -52,42 +52,53 @@ export function Gallery({ credits, onRemix }: { credits: number; onRemix: () => 
   return (
     <section id="gallery" className="py-32 px-6 bg-black">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
-            <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter uppercase mb-6">
+            <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase mb-6">
               {t('gallery.title1')} <br />
               <span className="text-white/40">{t('gallery.title2')}</span>
             </h2>
-            <p className="text-xl text-white/40 max-w-xl">
+            <p className="text-xl text-white/40 max-w-xl font-medium">
               {t('gallery.subtitle')}
             </p>
           </div>
           <div className="flex items-center gap-4 bg-white/5 border border-white/10 px-6 py-3 rounded-2xl backdrop-blur-xl">
-            <Zap className="w-5 h-5 text-yellow-400" />
-            <span className="text-white font-bold uppercase tracking-widest text-xs">{t('gallery.credits')}: {credits}</span>
+            <Zap className="w-5 h-5 text-purple-400" />
+            <span className="text-white font-black uppercase tracking-widest text-[10px]">{t('gallery.credits')}: {credits}</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {GALLERY_IMAGES.map((img) => (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[300px]">
+          {GALLERY_IMAGES.map((img, i) => (
             <motion.div
               key={img.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setSelectedImage(img)}
-              className="aspect-square rounded-3xl overflow-hidden cursor-pointer border border-white/10 group relative"
+              className={cn(
+                "rounded-[2.5rem] overflow-hidden cursor-pointer border border-white/10 group relative transition-all duration-700",
+                i === 1 || i === 4 ? "row-span-2" : "row-span-1",
+                i === 0 || i === 6 ? "lg:col-span-2" : "col-span-1"
+              )}
             >
               <img 
                 src={img.url} 
                 alt={img.prompt} 
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                loading="lazy"
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <div className="bg-white text-black px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-2">
-                  <Wand2 className="w-3 h-3" />
+              <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center">
+                <div className="bg-white text-black px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-3 mb-4 scale-90 group-hover:scale-100 transition-transform duration-500">
+                  <Wand2 className="w-4 h-4" />
                   {t('gallery.remix')}
                 </div>
+                <p className="text-white/60 text-xs italic line-clamp-2 max-w-xs transition-all duration-700 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+                  "{img.prompt}"
+                </p>
               </div>
             </motion.div>
           ))}

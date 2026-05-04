@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { motion } from 'motion/react';
 import { Header, Footer } from '@/src/components/Layout';
-import { Hero, Features } from '@/src/components/Hero';
-import { AIToolbox } from '@/src/components/AIToolbox';
-import { Gallery } from '@/src/components/Gallery';
+import { Hero } from '@/src/components/Hero';
+import { BusinessStats } from '@/src/components/BusinessStats';
+import { IndustriesGrid } from '@/src/components/IndustriesGrid';
 import { UseCases } from '@/src/components/UseCases';
-import { About } from '@/src/components/About';
-import { Workflow } from '@/src/components/Workflow';
+import { ComparisonTable } from '@/src/components/ComparisonTable';
+import { MobileApp } from '@/src/components/MobileApp';
+import { FAQ } from '@/src/components/FAQ';
 import { Pricing } from '@/src/components/Pricing';
+import { About } from '@/src/components/About';
+import { FinalCTA } from '@/src/components/FinalCTA';
+import Solutions from '@/src/components/Solutions';
 import { useTranslation } from 'react-i18next';
+import { Zap } from 'lucide-react';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -18,44 +24,39 @@ function ScrollToTop() {
   return null;
 }
 
-function HomePage() {
+function FloatingCTA() {
   const { t } = useTranslation();
+  const location = useLocation();
+  
+  if (location.pathname === '/' || location.pathname === '/faq') return null;
+  
   return (
-    <>
-      <Hero />
-      {/* Final CTA */}
-      <section className="py-32 px-6 bg-white text-black overflow-hidden relative">
-        <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="max-w-7xl mx-auto text-center relative z-10">
-          <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-12 leading-[0.85]">
-            Ready to <br />
-            <span className="text-black/20">Transform?</span>
-          </h2>
-          <button className="bg-black text-white px-12 py-6 rounded-2xl font-black text-xl uppercase tracking-widest hover:scale-105 transition-all active:scale-95">
-            {t('nav.getStarted')}
-          </button>
-        </div>
-      </section>
-    </>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100]"
+    >
+      <button className="bg-white text-black px-8 py-4 rounded-full font-black uppercase tracking-widest text-xs shadow-2xl shadow-white/20 hover:scale-105 transition-all active:scale-95 flex items-center gap-3 whitespace-nowrap">
+        <Zap className="w-4 h-4 fill-black" />
+        {t('hero.ctaStart')}
+      </button>
+    </motion.div>
   );
 }
 
-function SolutionsPage() {
+function HomePage() {
   return (
     <>
-      <Features />
-      <Workflow />
+      <Hero />
+      <BusinessStats />
+      <IndustriesGrid />
+      <ComparisonTable />
+      <FinalCTA />
     </>
   );
 }
 
 export default function App() {
-  const [credits, setCredits] = useState(3);
-
-  const handleRemix = () => {
-    setCredits(prev => Math.max(0, prev - 1));
-  };
-
   return (
     <Router>
       <ScrollToTop />
@@ -64,15 +65,16 @@ export default function App() {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/solutions" element={<SolutionsPage />} />
+            <Route path="/solutions" element={<Solutions />} />
             <Route path="/templates" element={<UseCases />} />
-            <Route path="/tools" element={<AIToolbox />} />
-            <Route path="/gallery" element={<Gallery credits={credits} onRemix={handleRemix} />} />
+            <Route path="/wechat" element={<MobileApp />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/about" element={<About />} />
           </Routes>
         </main>
         <Footer />
+        <FloatingCTA />
       </div>
     </Router>
   );

@@ -13,9 +13,9 @@ export function Header() {
   const navItems = [
     { name: t('nav.solutions'), href: '/solutions' },
     { name: t('nav.templates'), href: '/templates' },
-    { name: t('nav.tools'), href: '/tools' },
-    { name: t('nav.gallery'), href: '/gallery' },
+    { name: t('nav.wechat'), href: '/wechat' },
     { name: t('nav.pricing'), href: '/pricing' },
+    { name: t('nav.faq'), href: '/faq' },
     { name: t('nav.about'), href: '/about' },
   ];
 
@@ -26,44 +26,51 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-xl border-b border-white/10">
-      <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-            <Wand2 className="text-black w-6 h-6" />
+      <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center">
+        <Link to="/" className="flex items-center gap-3 z-50">
+          <div className="relative group">
+            <div className="absolute -inset-2 bg-gradient-to-r from-blue-400 via-orange-400 to-purple-400 rounded-full blur-lg opacity-20 group-hover:opacity-40 transition-opacity" />
+            <img 
+              src="https://api.dicebear.com/7.x/shapes/svg?seed=tourfly&backgroundColor=ffdfbf,c0aede,d1f4ff&shape1Color=3b82f6,f97316,a855f7" 
+              alt="Tourfly AI Logo" 
+              className="w-8 h-8 relative z-10"
+              referrerPolicy="no-referrer"
+            />
           </div>
-          <span className="text-2xl font-bold tracking-tighter text-white">TOURFLY</span>
+          <span className="text-xl font-black tracking-tighter text-white uppercase whitespace-nowrap">{t('nav.brandName')}</span>
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop Nav - Centered */}
+        <div className="hidden md:flex flex-1 justify-center items-center gap-2">
           {navItems.map((item) => (
             <Link
               key={item.href}
               to={item.href}
               className={cn(
-                "text-sm font-medium transition-colors",
-                location.pathname === item.href ? "text-white" : "text-white/60 hover:text-white"
+                "px-5 py-2 rounded-full text-sm font-medium transition-all duration-300",
+                location.pathname === item.href 
+                  ? "bg-white text-black shadow-lg" 
+                  : "text-white/60 hover:text-white hover:bg-white/5"
               )}
             >
               {item.name}
             </Link>
           ))}
-          
+        </div>
+
+        {/* Desktop Controls - Language Switcher */}
+        <div className="hidden md:flex items-center gap-6 z-50">
           <button 
             onClick={toggleLanguage}
             className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
           >
             <Globe className="w-4 h-4" />
-            <span className="text-xs font-bold uppercase">{i18n.language === 'en' ? 'EN' : '中文'}</span>
-          </button>
-
-          <button className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-white/90 transition-all active:scale-95">
-            {t('nav.getStarted')}
+            <span className="text-xs font-bold uppercase">{i18n.language.startsWith('zh') ? 'English' : '中文'}</span>
           </button>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <div className="flex items-center gap-4 md:hidden">
+        {/* Mobile menu logic remains at the right edge */}
+        <div className="flex items-center gap-4 md:hidden ml-auto">
           <button 
             onClick={toggleLanguage}
             className="text-white/60 hover:text-white transition-colors"
@@ -100,9 +107,6 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
-            <button className="bg-white text-black w-full py-3 rounded-xl font-bold">
-              {t('nav.getStarted')}
-            </button>
           </div>
         </motion.div>
       )}
@@ -113,45 +117,13 @@ export function Header() {
 export function Footer() {
   const { t } = useTranslation();
   return (
-    <footer className="bg-black border-t border-white/10 py-20 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-        <div className="col-span-1 md:col-span-2">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-              <Wand2 className="text-black w-5 h-5" />
-            </div>
-            <span className="text-xl font-bold tracking-tighter text-white uppercase">Tourfly</span>
+    <footer className="bg-black border-t border-white/10 py-32 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="mt-20 pt-8 flex flex-col md:row justify-between items-center gap-4">
+          <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.2em]">{t('footer.rights')}</p>
+          <div className="flex gap-6">
+            {/* Social Icons would go here */}
           </div>
-          <p className="text-white/40 max-w-sm text-lg leading-relaxed">
-            {t('footer.desc')}
-          </p>
-        </div>
-        
-        <div>
-          <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">{t('footer.platform')}</h4>
-          <ul className="space-y-4 text-white/40 text-sm">
-            <li><Link to="/solutions" className="hover:text-white transition-colors">{t('nav.solutions')}</Link></li>
-            <li><Link to="/templates" className="hover:text-white transition-colors">{t('nav.templates')}</Link></li>
-            <li><Link to="/tools" className="hover:text-white transition-colors">{t('nav.tools')}</Link></li>
-            <li><Link to="/gallery" className="hover:text-white transition-colors">{t('nav.gallery')}</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">{t('footer.company')}</h4>
-          <ul className="space-y-4 text-white/40 text-sm">
-            <li><Link to="/about" className="hover:text-white transition-colors">{t('nav.about')}</Link></li>
-            <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 flex flex-col md:row justify-between items-center gap-4">
-        <p className="text-white/20 text-xs">{t('footer.rights')}</p>
-        <div className="flex gap-6">
-          {/* Social Icons would go here */}
         </div>
       </div>
     </footer>
